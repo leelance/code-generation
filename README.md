@@ -1,5 +1,27 @@
 # code-generation
-Mybatis Auto Code Generation Mapper/Service/Domain/SQL.xml
+Mybatis Auto Code Generation Mapper/Service/Domain/SQL.xml, 主要是针对某个数据, 统一生成Domain/Service/Mapper,以及SQL.xml文件，
+如：针对t_customer, 通过该应用生成CustonerInfo.java, CustomerSerivce.java/CustomerServiceImpl.java, CustomerMapper.java 以及 Customer-mapper.xml文件. 小工具类
+
+Project run MainTest
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=SimpleApplication.class)
+public class MainTest {
+	Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private TableService tableService;
+
+	@Test
+	public void main() {
+		long startTime = System.currentTimeMillis();
+		logger.info("...........start application.........");
+		
+		tableService.run();
+		
+		logger.info("...end application...Time: {}",(System.currentTimeMillis()-startTime));
+	}
+}
+```
 
 Generate Code Config
 ```java
