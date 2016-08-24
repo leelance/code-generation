@@ -60,7 +60,7 @@ public class TableServiceImpl implements TableService {
 		writeFile(JavaBeanHandler.mapperPath(), JavaBeanHandler.className(info.getTableName(), ConfigConstants.MAPPER_PACKAGE)+".java", mapper);
 		
 		//创建Mapper.xml
-		String xmlMapper = JavaBeanHandler.createXMLMapper(info);
+		String xmlMapper = JavaBeanHandler.createXMLMapper(info, columns);
 		writeFile(JavaBeanHandler.xmlPath(), JavaBeanHandler.className(info.getTableName(), ConfigConstants.SQL_MAPPER_SUFFIX)+".xml", xmlMapper);
 		
 		//创建接口service
