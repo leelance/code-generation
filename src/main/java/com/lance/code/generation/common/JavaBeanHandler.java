@@ -161,6 +161,10 @@ public class JavaBeanHandler {
 		StringBuilder builder = new StringBuilder(mapperPackageHeader());
 		builder.append(KeyWords.SEMICOLON)
 		.append(KeyWords.NEWLINE).append(KeyWords.NEWLINE)
+		.append(KeyWords.IMPORT).append(KeyWords.SPACE)
+		.append(domainPackage()).append(KeyWords.DOT).append(domainClassName(info.getTableName()))
+		.append(KeyWords.SEMICOLON)
+		.append(KeyWords.NEWLINE).append(KeyWords.NEWLINE)
 		
 		//实体类注释
 		.append("/**")
@@ -179,6 +183,17 @@ public class JavaBeanHandler {
 		.append(KeyWords.SPACE).append(className(info.getTableName(), ConfigConstants.MAPPER_PACKAGE))
 		.append(KeyWords.SPACE).append("{")
 		.append(KeyWords.NEWLINE).append(KeyWords.NEWLINE)
+		//保存方法
+		.append(InterfaceMethod.mapperSave(info))
+		.append(KeyWords.NEWLINE)
+		//修改对象
+		.append(InterfaceMethod.mapperUpdate(info))
+		.append(KeyWords.NEWLINE)
+		//删除对象
+		.append(InterfaceMethod.mapperDelete())
+		.append(KeyWords.NEWLINE)
+		//查询对象根据ID
+		.append(InterfaceMethod.mapperFindOne(info))
 		
 		.append("}");
 		return builder.toString();
@@ -189,7 +204,7 @@ public class JavaBeanHandler {
 		return ConfigConstants.SQL_PATH;
 	}
 	
-	public static String createXMLMapper(TableInfo info) {
+	public static String createXMLMapper(TableInfo info, List<ColumnInfo> columns) {
 		StringBuilder builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 		builder.append(KeyWords.NEWLINE)
 		.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\" >")
@@ -203,6 +218,20 @@ public class JavaBeanHandler {
 		.append(KeyWords.Tab).append("<!-- ").append(info.getTableComment()).append(" -->")
 		.append(KeyWords.NEWLINE).append(KeyWords.NEWLINE)
 		
+		//Save对象
+		.append(XMLMethod.xmlSave(info, columns))
+		.append(KeyWords.NEWLINE)
+		
+		//Update对象
+		.append(XMLMethod.xmlUpdate(info, columns))
+		.append(KeyWords.NEWLINE)
+		
+		//删除对象
+		.append(XMLMethod.xmlDelete(info))
+		.append(KeyWords.NEWLINE)
+		
+		//查询对象根据ID
+		.append(XMLMethod.xmlFindOne(info))
 		.append("</mapper>");
 		return builder.toString();
 	}
