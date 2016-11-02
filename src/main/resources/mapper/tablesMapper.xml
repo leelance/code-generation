@@ -9,7 +9,7 @@
 	
 	<!-- 根据表获取表字段 -->
 	<select id="findColumn" resultType="ColumnInfo">
-		select column_name, column_comment,data_type 
+		select column_name, column_comment,data_type,column_key
 		from Information_schema.columns 
 		where table_Name=#{tableName} and table_schema=#{schemaName}
 	</select>
