@@ -2,7 +2,7 @@ package com.lance.code.generation.common;
 
 public interface ConfigConstants {
 	/**定义Schema*/
-	String SCHEMA = "longchou-loan";
+	String SCHEMA = "web-system";
 	
 	/**移除表前缀*/
 	String REMOVE_TABLE_PREFIX = "t_";
@@ -20,7 +20,7 @@ public interface ConfigConstants {
 	String SQL_MAPPER_SUFFIX = "-mapper";
 	
 	/**生成包名称*/
-	String ROOT_PACKAGE = "com.lance.code";
+	String ROOT_PACKAGE = "com.lance";
 	
 	/**JavaBean包名称*/
 	String DOMAIN_PACKAGE = "domain";
