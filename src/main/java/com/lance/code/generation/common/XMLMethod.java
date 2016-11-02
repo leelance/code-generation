@@ -62,7 +62,7 @@ public final class XMLMethod {
 	public static String xmlSave(TableInfo info, List<ColumnInfo> columns) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(KeyWords.Tab).append("<!-- Save对象 -->").append(KeyWords.NEWLINE)
-		.append(KeyWords.Tab).append("<insert id=\"save\" useGeneratedKeys=\"true\" keyProperty=\"id\" parameterType=\"")
+		.append(KeyWords.Tab).append("<insert id=\"save\" "+getPrimaryKey(columns)+" parameterType=\"")
 		.append(JavaBeanHandler.domainClassName(info.getTableName()))
 		.append("\">")
 		.append(KeyWords.NEWLINE)
@@ -71,7 +71,7 @@ public final class XMLMethod {
 		.append(info.getTableName())
 		.append("(");
 		for(ColumnInfo column: columns) {
-			if(!StringUtils.equalsIgnoreCase(column.getColumnName(), "id")) {
+			if(!column.isPrimaryKey()) {
 				builder.append(column.getColumnName()).append(",");
 			}
 		}
@@ -81,7 +81,7 @@ public final class XMLMethod {
 		.append("values(").append(KeyWords.NEWLINE)
 		.append(KeyWords.Tab).append(KeyWords.Tab);
 		for(ColumnInfo column: columns) {
-			if(!StringUtils.equalsIgnoreCase(column.getColumnName(), "id")) {
+			if(!column.isPrimaryKey()) {
 				builder.append("#{").append(JavaBeanHandler.attrName(column.getColumnName(), false)).append("},");
 			}
 		}
@@ -90,6 +90,20 @@ public final class XMLMethod {
 		.append(KeyWords.Tab).append("</insert>")
 		.append(KeyWords.NEWLINE);
 		return StringUtils.replace(builder.toString(), ",)", ")");
+	}
+	
+	/**
+	 * 获取主键
+	 * @param columns
+	 * @since 2016年11月2日下午1:41:43
+	 */
+	private static String getPrimaryKey(List<ColumnInfo> columns){
+		for(ColumnInfo column: columns) {
+			if(column.isPrimaryKey()) {
+				return "useGeneratedKeys=\"true\" keyProperty=\""+JavaBeanHandler.attrName(column.getColumnName(), false)+"\"";
+			}
+		}
+		return "";
 	}
 	
 	/**
